@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动漫主题纪念券制作流程</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --paper: #ffffff;
+    --ink: #1f1d2a;
+    --ink-soft: #4a4658;
+    --ink-mute: #7a7588;
+    --line: #e3dfd4;
+    --accent: #6b4ea8;
+    --accent-soft: #efe9fb;
+    --gold: #b8893b;
+    --warn-bg: #fff5e6;
+    --warn-bd: #e8a64a;
+    --tip-bg: #eaf4ee;
+    --tip-bd: #6b9e7c;
+    --danger-bg: #fdeaea;
+    --danger-bd: #c75555;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 820px);
+    gap: 40px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+  /* Sidebar */
+  aside {
+    position: sticky;
+    top: 32px;
+    align-self: start;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 16px;
+    font-size: 13.5px;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  aside h3 {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 14px 0 8px;
+  }
+  aside h3:first-child { margin-top: 0; }
+  aside ol { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  aside ol li {
+    counter-increment: step;
+    margin: 2px 0;
+  }
+  aside ol li a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    display: block;
+    padding: 5px 8px 5px 30px;
+    border-radius: 5px;
+    position: relative;
+    transition: background 0.15s;
+  }
+  aside ol li a::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 6px;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    top: 6px;
+  }
+  aside ol li a:hover { background: var(--accent-soft); color: var(--accent); }
+
+  /* Main */
+  main { min-width: 0; }
+  header.title {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+  }
+  header.title h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    letter-spacing: 0.02em;
+  }
+  header.title .sub {
+    color: var(--ink-mute);
+    font-size: 14px;
+  }
+  header.title .meta {
+    margin-top: 14px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: var(--ink-mute);
+  }
+  header.title .meta span { display: inline-flex; align-items: center; gap: 4px; }
+  header.title .meta b { color: var(--ink-soft); font-weight: 600; }
+
+  /* Spec table */
+  .spec-table {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 28px;
+    margin-bottom: 28px;
+  }
+  .spec-table h2 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .spec-grid .cell {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .spec-grid .cell .k {
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .spec-grid .cell .v {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+  }
+
+  /* Step section */
+  section.step {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    scroll-margin-top: 24px;
+  }
+  section.step h2 {
+    margin: 0 0 4px;
+    font-size: 19px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  section.step h2 .num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  section.step h3.proper {
+    margin: 4px 0 14px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-weight: 400;
+    font-style: italic;
+  }
+  section.step h4 {
+    margin: 18px 0 6px;
+    font-size: 13.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    text-transform: none;
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+  }
+  section.step p { margin: 8px 0; }
+  section.step ul, section.step ol {
+    margin: 8px 0;
+    padding-left: 22px;
+  }
+  section.step li { margin: 3px 0; }
+
+  .callout {
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .callout .label {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .callout.warn { background: var(--warn-bg); border-left: 4px solid var(--warn-bd); }
+  .callout.warn .label { color: var(--warn-bd); }
+  .callout.tip { background: var(--tip-bg); border-left: 4px solid var(--tip-bd); }
+  .callout.tip .label { color: var(--tip-bd); }
+  .callout.danger { background: var(--danger-bg); border-left: 4px solid var(--danger-bd); }
+  .callout.danger .label { color: var(--danger-bd); }
+
+  .checklist {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 18px;
+    margin: 12px 0;
+  }
+  .checklist ul { list-style: none; padding-left: 4px; }
+  .checklist li {
+    position: relative;
+    padding-left: 26px;
+    margin: 6px 0;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  .io-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .io-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .io-table td:first-child {
+    width: 90px;
+    color: var(--ink-mute);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .quote-block {
+    background: #2a2533;
+    color: #e8e4f0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .quote-block::before {
+    content: "给店家的原话";
+    display: block;
+    font-size: 11px;
+    color: #a59fb5;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .flow-summary {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 28px;
+  }
+  .flow-summary ol {
+    counter-reset: flow;
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+  }
+  .flow-summary ol li {
+    counter-increment: flow;
+    padding: 8px 0 8px 42px;
+    border-bottom: 1px dashed var(--line);
+    position: relative;
+  }
+  .flow-summary ol li:last-child { border-bottom: none; }
+  .flow-summary ol li::before {
+    content: counter(flow);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .core-rule {
+    background: linear-gradient(135deg, #2a2533 0%, #3d3450 100%);
+    color: #f3f0fa;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 18px;
+  }
+  .core-rule h2 { color: #f3f0fa; margin-top: 0; }
+  .core-rule strong { color: #ffd98a; }
+  .core-rule p { color: #d8d2e6; }
+
+  /* MVP path box */
+  .mvp-box {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 18px;
+  }
+  .mvp-box h2 { margin-top: 0; }
+  .mvp-lanes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+  }
+  .mvp-lane {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .mvp-lane .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .mvp-lane.min .tag { background: var(--tip-bd); color: white; }
+  .mvp-lane.mid .tag { background: var(--warn-bd); color: white; }
+  .mvp-lane.full .tag { background: var(--accent); color: white; }
+  .mvp-lane h4 { margin: 4px 0 6px; font-size: 14.5px; }
+  .mvp-lane ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: var(--ink-soft); }
+
+  footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 12px;
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; font-size: 11px; }
+    .layout { display: block; padding: 0; max-width: none; }
+    aside { display: none; }
+    section.step { page-break-inside: avoid; box-shadow: none; border-color: #ccc; }
+    header.title, .spec-table, .flow-summary, .core-rule {
+      page-break-inside: avoid;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
+    aside { position: static; max-height: none; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- Sidebar nav -->
+<aside>
+  <h3>导航</h3>
+  <ol>
+    <li><a href="#background">背景与术语</a></li>
+    <li><a href="#spec">成品规格</a></li>
+    <li><a href="#step-1">彩色印刷稿</a></li>
+    <li><a href="#step-2">数码印刷</a></li>
+    <li><a href="#step-3">专色丝印版稿</a></li>
+    <li><a href="#step-4">专色套印</a></li>
+    <li><a href="#step-5">荧光丝印版稿</a></li>
+    <li><a href="#step-6">荧光套印</a></li>
+    <li><a href="#step-7">成品裁切</a></li>
+    <li><a href="#summary">流程总览</a></li>
+    <li><a href="#mvp">MVP 路径</a></li>
+  </ol>
+  <h3>核心规则</h3>
+  <p style="font-size:12.5px;color:var(--ink-mute);line-height:1.6;margin:6px 0;">
+    变化内容 → 数码印刷<br>
+    固定装饰 → 丝网印刷<br>
+    每张都不同的丝印图形 = 重新制版 = 成本爆炸
+  </p>
+</aside>
+
+<!-- Main content -->
+<main>
+
+<header class="title">
+  <h1>动漫主题非流通收藏纪念券 · 制作流程</h1>
+  <div class="sub">数码彩印 + 专色丝印 + 紫外荧光丝印 · 三层叠加工艺</div>
+  <div class="meta">
+    <span><b>定位：</b>千人千样 / 每款 1–2 张</span>
+    <span><b>成品：</b>180 × 80 mm</span>
+    <span><b>承印：</b>120g 棉纸</span>
+  </div>
+</header>
+
+<!-- Background & Terminology -->
+<section class="step" id="background">
+  <h2><span class="num">背景</span> 工艺来源与术语澄清</h2>
+  <h3 class="proper">为什么这样设计 + 和打印店沟通要避开的术语坑</h3>
+
+  <h4>本方案的工艺来源</h4>
+  <p>方案灵感来自传统手绘纪念券的工艺链：<b>铅笔起稿 → 彩色铺底 → 漏版套印 → 裁切 → 紫外显影</b>。但产品目标是"千人千样"（每张人物/姓名/编号都不同），所以把传统工艺改造为：<b>数码彩印（变化层）+ 丝网印刷（固定装饰层）+ 紫外荧光（隐藏层）</b>的三层叠加。</p>
+
+  <h4>视频里看到的工艺 ≠ 本方案</h4>
+  <table class="io-table">
+    <tr>
+      <td>铅笔手绘细纹</td>
+      <td>视频里是<b>制版母稿</b>，画完后通过制版批量转印到多张纪念钞上。本方案改为 AI 生成 1000 张不同的细纹 + 数码打印，每张独立。</td>
+    </tr>
+    <tr>
+      <td>蓝膜板 + 紫色油漆 + 刮板</td>
+      <td>这是<b>漏版印刷（丝网印刷）</b>：油漆被刮板压过版孔印到下面纸上。<b>不是凹版</b>——凹版是"刮刀刮掉版面多余油墨，凹陷里的油墨转印到纸上"。</td>
+    </tr>
+    <tr>
+      <td>一版印三张</td>
+      <td>视频里 3 张纪念钞装饰完全相同，因为是同一块版印的。本方案让丝印层只承载<b>固定装饰</b>，每张不同的内容（人物/编号/面值）放在数码打印层，所以丝印层可以"一版多印"。</td>
+    </tr>
+  </table>
+
+  <h4>和打印店沟通的术语对照</h4>
+  <div class="callout danger">
+    <span class="label">极易混淆，下单必须写清</span>
+    国内店家经常把以下概念混着用，下单时一定要求店家复述确认：
+  </div>
+  <table class="io-table">
+    <tr><td>丝网印刷</td><td>Screen printing · 漏版 · 刮板把油墨压过网孔 · <b>本方案的专色和荧光都用这个</b></td></tr>
+    <tr><td>凹版印刷</td><td>Intaglio · 钞票主流工艺 · 墨层有凹凸手感 · 制版极贵 · 本方案<b>不用</b></td></tr>
+    <tr><td>UV 固化油墨</td><td>UV curable ink · 必须用紫外灯才能干燥固化的油墨 · <b>和荧光无关</b></td></tr>
+    <tr><td>UV 荧光油墨</td><td>UV fluorescent ink · 紫外灯照射下<b>发光</b>的油墨 · <b>本方案用这个</b></td></tr>
+    <tr><td>数码彩印</td><td>Digital print · 激光/喷墨 · 每张可不同 · 本方案主层</td></tr>
+    <tr><td>棉纸</td><td>"棉纸"概念不统一 · 下单时必须明确成分（% 棉）、克重、是否含酸</td></tr>
+  </table>
+  <div class="callout tip">
+    <span class="label">验证店家理解</span>
+    要求店家在量产前先打 1–2 张全流程样，并拍摄 <b>365 nm 紫外灯下的荧光效果视频</b>，确认"正常光下隐蔽 + 紫外光下发光"再走批量。
+  </div>
+</section>
+
+<!-- Specification -->
+<section class="spec-table" id="spec">
+  <h2>成品规格（固定不变）</h2>
+  <div class="spec-grid">
+    <div class="cell">
+      <div class="k">AI 图尺寸</div>
+      <div class="v">2976 × 1376 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">印刷文件</div>
+      <div class="v">186 × 86 mm</div>
+    </div>
+    <div class="cell">
+      <div class="k">裁切成品</div>
+      <div class="v">180 × 80 mm</div>
+    </div>
+    <div class="cell">
+      <div class="k">四周出血</div>
+      <div class="v">各 3 mm ≈ 48 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">裁切保留区</div>
+      <div class="v">2880 × 1280 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">内容安全距离</div>
+      <div class="v">距边 ≥ 128 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">像素密度</div>
+      <div class="v">≈ 406 DPI</div>
+    </div>
+    <div class="cell">
+      <div class="k">细线最小宽度</div>
+      <div class="v">4–5 px ≈ 0.3 mm</div>
+    </div>
+  </div>
+  <div class="callout warn" style="margin-top:16px;">
+    <span class="label">硬性要求</span>
+    背景必须铺满 2976 × 1376 px 画布，<b>不得出现</b>画框外的桌面、墙壁、阴影或白色外围。所有文件比例、印刷尺寸、裁切尺寸必须从一开始就固定，防止店家拉伸或随意裁图。
+  </div>
+</section>
+
+<!-- Step 1: 彩色印刷稿 -->
+<section class="step" id="step-1">
+  <h2><span class="num">步骤 01</span> 制作彩色印刷稿</h2>
+  <h3 class="proper">含 AI 视觉底稿生成 + 人工文字后期</h3>
+
+  <h4>目的</h4>
+  <p>完成最终数码打印所需的全部内容：人物、背景、颜色、边框、正常光线下可见的细纹，以及每个人不同的面值、姓名、编号和日期。</p>
+
+  <h4>分工：AI vs 人工</h4>
+  <table class="io-table">
+    <tr><td>AI 负责</td><td>人物 · 服装配饰 · 彩色背景 · 装饰边框 · 面值装饰框 · 标题装饰牌 · 编号区 · 徽章区 · 正常光线可见的钞券风格细纹</td></tr>
+    <tr><td>AI 不负责</td><td>最终面值数字 · 人物姓名 · 正式标题 · 纪念编号 · 日期 · 中/英/日文说明 · "非流通纪念券"等准确文字</td></tr>
+    <tr><td>原因</td><td>AI 容易生成错字、乱码、重复文字。AI 只生成对应的空白装饰区域，文字由人工后期输入。</td></tr>
+  </table>
+
+  <h4>装饰位置：由设计模板锁死，不交给 AI</h4>
+  <div class="callout warn">
+    <span class="label">核心原则（修订自原方案）</span>
+    所有装饰框、标题牌、徽章、面值框、编号区的<b>位置</b>由<b>设计模板（PSD/AI 文件）</b>固定。AI 只在模板预留的"人物区域"内填充人物。
+  </div>
+  <p>这么做的原因是：AI 生成的装饰位置每张都会有几个像素的漂移，如果直接拿 AI 出的图去做丝印版，丝印位置和 AI 装饰位置就会错位。手工丝印本身有 ±1mm 误差，再叠加 AI 漂移，套印必歪。</p>
+  <p><b>具体做法</b>：</p>
+  <ul>
+    <li>先在 PSD/AI 里画好整张纪念券的<b>版式骨架</b>——边框、标题牌、面值框、徽章、编号区——所有装饰图层锁定位置。</li>
+    <li>给 AI 喂图时指定"只生成中间人物区"（例如画面中心 1200×900 px），生成完贴回模板的人物层。</li>
+    <li>面值、姓名、编号、日期等文字也在模板里直接编辑，不依赖 AI。</li>
+    <li>丝印版稿直接从模板的"装饰层"提取，与彩图位置天然 100% 对齐。</li>
+  </ul>
+  <div class="callout tip">
+    <span class="label">关于 1mm 套准误差</span>
+    手工丝印的 ±1mm 误差仍然存在，但因为装饰位置是机械固定的，<b>偏移方向可控</b>（每张都往同一方向偏），肉眼能接受。剩下的具体对位方案交给打印社根据实际工艺处理。
+  </div>
+
+  <h4>正常可见细纹的安排</h4>
+  <ul>
+    <li><b>头发</b>：顺着发丝方向的雕刻排线，用线条疏密表现明暗。</li>
+    <li><b>衣服、羽织、衣褶</b>：顺着布料结构的排线 + 少量交叉排线。</li>
+    <li><b>颈部、下巴、鼻侧阴影</b>：少量细排线。</li>
+    <li><b>脸部主体</b>：<span style="color:var(--danger-bd);font-weight:600;">不大量使用排线</span>。眼睛、嘴巴、鼻子、皮肤亮部保持干净。</li>
+    <li><b>人物背后浅色区</b>：放射纹、同心曲线、扭索纹。</li>
+    <li><b>大面积浅色背景</b>：波浪曲线、几何网纹、连续曲线、浅色花卉线纹。</li>
+    <li><b>边框、徽章、面值框、标题牌</b>：重复装饰线、蝶翼线纹、花卉线纹、对称曲线。</li>
+  </ul>
+  <div class="callout danger">
+    <span class="label">禁忌区</span>
+    黑色头发最暗处、深紫色背景、人物五官、正文文字、编号区域 — 不要继续堆积细纹，否则在棉纸上糊成黑块。
+    细线建议 ≥ 4–5 px 宽，线间距 ≥ 4–5 px。不得出现大量断裂、模糊、粘连的伪细线。
+  </div>
+
+  <h4>面值区域要求</h4>
+  <ul>
+    <li>AI 只生成面值装饰框，<b>不生成具体数字</b>。</li>
+    <li>使用浅色、低细节背景。</li>
+    <li>不得覆盖人物脸部、头发或复杂背景。</li>
+    <li>面值框要能容纳六位数字（如 "100000"）。</li>
+    <li>最终面值由人工后期输入并与彩图一起数码打印。</li>
+  </ul>
+  <div class="callout tip">
+    <span class="label">为什么面值不用丝印</span>
+    每个人的面值可能不同。用传统丝网印刷面值，每换一个面值就要重新制作网版，得不偿失。
+  </div>
+
+  <h4>其他文字区域要求</h4>
+  <ul>
+    <li><b>标题</b>：使用横向空白装饰牌。</li>
+    <li><b>编号</b>：细长、浅色、低细节区域。</li>
+    <li><b>姓名 / 日期</b>：平整、清楚。</li>
+    <li>预留 "非流通纪念券"、"无货币价值"、"NON-NEGOTIABLE" 的位置。</li>
+    <li>边框、蝴蝶、人物身体<b>不得穿过</b>文字区域。</li>
+  </ul>
+
+  <h4>后续套印区域预留</h4>
+  <table class="io-table">
+    <tr>
+      <td>专色套印</td>
+      <td>在标题、徽章、固定装饰处预留浅色低细节区。不得与人物五官、发丝、复杂边框精确贴合。周围留 ≥ 1 mm，因手工丝印可能有约 1 mm 套准误差。</td>
+    </tr>
+    <tr>
+      <td>荧光纹样</td>
+      <td>在浅色背景上预留连续空间（人物背后、左右浅色背景、面值框周围、较大空白区）。<b>不得</b>安排在人物脸部、黑色头发、深紫色边框上。此时不要把荧光纹样明显画进彩图，只预留承印位置。</td>
+    </tr>
+  </table>
+
+  <h4>AI 提示词（固定模板）</h4>
+  <div class="quote-block">生成 2976×1376 像素的横向动漫主题非流通收藏纪念券视觉底稿。背景、底色、装饰纹样铺满整个画布，不得出现画框外的白边、桌面、墙面或投影。四周 48 像素只放连续背景和可裁切装饰；人物脸部、标题牌、面值框、编号框和重要装饰距离四边至少 128 像素。
+
+人物保持精致动漫造型。头发使用顺发丝结构的雕刻排线；衣服、羽织、褶皱使用顺布料结构的排线与少量交叉排线；面部保持干净，只在鼻侧、下巴、颈部阴影处加少量细排线。不得让排线穿过眼睛、嘴巴等主要五官。
+
+人物背后浅色区加放射纹、同心曲线、扭索纹；大面积浅色背景加精密波浪曲线、几何网纹、连续曲线；边框、徽章、装饰框加对称花卉线纹、蝶翼线纹、重复装饰细线。不要在黑色头发、深紫色背景、人物五官、文字区域堆积细纹。细线必须清晰、连续、疏密合理，不得模糊、断裂、粘连成黑块。
+
+生成空白面值装饰框、空白标题牌、空白编号区、姓名和日期区、非流通说明区，但不要生成任何具体数字、中/英/日文、编号或伪文字。面值区必须是浅色、低细节背景，能容纳六位数字。为后续专色油墨和紫外荧光纹样预留浅色、连续、低细节区，不要让这些区与人物五官或发丝精确贴合。</div>
+
+  <h4>阶段输入 / 输出</h4>
+  <table class="io-table">
+    <tr><td>输入</td><td>人物/主题参考图 · 构图要求 · 2976×1376 px · 紫色/黑色/金色配色 · 文字清单</td></tr>
+    <tr><td>AI 输出</td><td>正面视觉底稿 PNG（2976×1376）；如有背面再生成同尺寸背面底稿</td></tr>
+    <tr><td>人工输入</td><td>正确面值、标题、姓名、编号、日期、非流通说明、其他必要文字</td></tr>
+    <tr><td>最终输出</td><td>正面彩色印刷稿 PNG · 背面彩色印刷稿 PNG · 彩色打印 PDF（186×86 mm，第 1 页正面 / 第 2 页背面）</td></tr>
+  </table>
+</section>
+
+<!-- Step 2: 数码印刷 -->
+<section class="step" id="step-2">
+  <h2><span class="num">步骤 02</span> 彩色底图数码印刷</h2>
+  <h3 class="proper">Digital Color Print on Cotton Paper</h3>
+
+  <h4>目的</h4>
+  <p>把人物、背景、颜色、边框、正常可见细纹、面值、姓名、编号、日期一起打印到 120g 棉纸上。</p>
+
+  <h4>给店家的要求</h4>
+  <div class="quote-block">使用 120g 棉纸，按照 PDF 原尺寸 100% 彩色打印，不拉伸、不缩放、不自动适应页面，不覆膜、不上光油。先打印 3–5 张测试，暂时不要裁成 180×80 mm。</div>
+
+  <div class="callout warn">
+    <span class="label">如需双面</span>
+    正面和背面方向已经确定，请按 PDF 页序进行双面打印，并尽量保证正反面对位。
+  </div>
+
+  <h4>印刷后状态</h4>
+  <table class="io-table">
+    <tr><td>纸上已有</td><td>人物 · 背景 · 基础颜色 · 普通可见细纹 · 面值 · 标题 · 姓名 · 编号 · 日期 · 非流通说明</td></tr>
+    <tr><td>纸上没有</td><td>额外的专色油墨层 · 紫外灯下显示的荧光隐藏纹样</td></tr>
+  </table>
+
+  <h4>质检清单</h4>
+  <div class="checklist">
+    <ul>
+      <li>人物肤色是否正常</li>
+      <li>紫色是否发灰或发暗</li>
+      <li>黑色头发是否糊成一块</li>
+      <li>排线和背景细纹是否清楚</li>
+      <li>小字是否能够阅读</li>
+      <li>纸张是否明显卷曲</li>
+      <li>面值和文字位置是否合适</li>
+    </ul>
+  </div>
+  <div class="callout danger">
+    <span class="label">注意</span>
+    如果画面发暗或细纹糊掉，应修改彩色印刷稿（减少暗部细纹、提高暗部亮度），然后重新打印。<b>不要让店家临时修改图片。</b>
+  </div>
+</section>
+
+<!-- Step 3: 专色丝印版稿 -->
+<section class="step" id="step-3">
+  <h2><span class="num">步骤 03</span> 制作专色丝印版稿</h2>
+  <h3 class="proper">专色分色制版 · Spot Color Separation</h3>
+
+  <h4>目的</h4>
+  <p>确定彩色底图上哪些位置需要额外加印一层特殊油墨，以获得更浓的颜色、更明显的墨层、珠光或金属效果。</p>
+
+  <h4>可选专色油墨</h4>
+  <p>深紫色 · 黑色 · 金色 · 银色 · 珠光色 · 金属色 · 其他主题专色</p>
+
+  <h4>适合 / 不适合加入专色</h4>
+  <table class="io-table">
+    <tr><td>适合</td><td>固定标题 · 固定徽章 · 固定主题标志 · 部分固定边框 · 位置形状固定的装饰纹样</td></tr>
+    <tr><td>不适合</td><td>每个人都不同的面值 / 姓名 / 编号 · 需要精确贴合人物五官或发丝的线条</td></tr>
+    <tr><td>原因</td><td>传统丝网印刷需要制版。这些图形一旦变化，就要重新制作丝网版。</td></tr>
+  </table>
+
+  <h4>制作方式</h4>
+  <ul>
+    <li>建立与彩色印刷稿尺寸、位置完全一致的文件。</li>
+    <li>需要加印专色的位置 = <b>纯黑色</b>。</li>
+    <li>不加印的位置 = <b>纯白色</b>。</li>
+    <li><b>禁用</b>灰色、阴影、透明度、渐变。</li>
+    <li>第一次测试只选 1 个标题、1 个徽章或少量边框，不要整张都做专色套印。</li>
+    <li>丝印图形线宽建议 ≥ 0.3 mm（约 5 px）。</li>
+  </ul>
+
+  <h4>输出</h4>
+  <p>专色丝印版稿 PNG（2976×1376 px，纯黑白）；或 186×86 mm 矢量 PDF。</p>
+</section>
+
+<!-- Step 4: 专色丝印 -->
+<section class="step" id="step-4">
+  <h2><span class="num">步骤 04</span> 专色油墨丝网套印</h2>
+  <h3 class="proper">Spot Color Screen Overprint</h3>
+
+  <h4>目的</h4>
+  <p>把专色版稿中的固定标题、徽章、装饰纹样，用特殊油墨套印到已完成彩色打印的棉纸上。</p>
+
+  <h4>阶段输入 / 输出</h4>
+  <table class="io-table">
+    <tr><td>输入</td><td>已完成彩色数码打印的棉纸 · 专色丝印版稿 · 根据版稿制作的丝网版 · 纸张丝印油墨</td></tr>
+    <tr><td>输出</td><td>增加了特殊油墨层的纸质纪念券</td></tr>
+  </table>
+
+  <h4>可能出现的效果</h4>
+  <ul>
+    <li>颜色更浓</li>
+    <li>墨层更明显</li>
+    <li>轻微凸起手感</li>
+    <li>珠光 / 金属效果</li>
+  </ul>
+  <div class="callout tip">
+    <span class="label">油墨选择</span>
+    希望接近传统印刷油墨，优先尝试<b>哑光或低光泽</b>纸张丝印油墨。过亮的透明油墨会更像塑料光油。
+  </div>
+
+  <h4>批量策略</h4>
+  <p>"千人千样"和"丝印"不冲突，因为本方案里丝印层只印<b>固定装饰</b>。但量产时有两种走法，根据量级选：</p>
+  <table class="io-table">
+    <tr>
+      <td>A. 一版多印</td>
+      <td>同一装饰版批量套印多张彩图。<b>适合量大</b>（≥100 张）。注意：要求所有彩图的装饰位置完全一致——也就是上一节"设计模板驱动"必须严格执行。</td>
+    </tr>
+    <tr>
+      <td>B. 一页一张</td>
+      <td>每张彩图单独走一次丝印。<b>适合量小或打样</b>（&lt;50 张）。灵活、可每张调整，但单张耗时长、人工成本高。</td>
+    </tr>
+    <tr>
+      <td>混合</td>
+      <td>按版式/面值分组——同一版式的彩图集中起来一起印。例如 10 个版式 × 各 100 张 = 1000 张千人千样，但只做 10 块版。</td>
+    </tr>
+  </table>
+  <div class="callout warn">
+    <span class="label">提示</span>
+    如果未来想把面值也做成丝印效果（而不是数码打印），按面值分组批量即可——只需 5–10 块面值版，不存在"每张不同就要重制版"的问题。
+  </div>
+</section>
+
+<!-- Step 5: 荧光丝印版稿 -->
+<section class="step" id="step-5">
+  <h2><span class="num">步骤 05</span> 制作紫外荧光丝印版稿</h2>
+  <h3 class="proper">荧光专色分色制版 · UV Fluorescent Artwork</h3>
+
+  <h4>目的</h4>
+  <p>确定哪些隐藏纹样需要在 365 nm 紫外灯照射后出现。</p>
+
+  <h4>适合 / 不适合的位置</h4>
+  <table class="io-table">
+    <tr><td>适合</td><td>蝴蝶轮廓 · 连续波浪曲线 · 放射纹 · 规则几何网纹 · 主题短句 · 人物姓名 · 纪念编号 · 较大的主题标志</td></tr>
+    <tr><td>不适合</td><td>人物眼睛和五官 · 黑色头发 · 深紫色边框 · 已极复杂的细纹区 · 裁切线附近 · 需精确贴合人物轮廓的位置</td></tr>
+  </table>
+
+  <h4>制作方式</h4>
+  <ul>
+    <li>建立与彩色印刷稿尺寸、位置完全一致的文件。</li>
+    <li>需要印荧光的位置 = <b>纯黑色</b>；不印 = <b>纯白色</b>。</li>
+    <li><b>禁用</b>灰色、阴影、透明渐变。</li>
+    <li>荧光线条 ≥ 0.25–0.3 mm（约 4–5 px），线间距也要足够。</li>
+  </ul>
+
+  <h4>输出</h4>
+  <p>紫外荧光丝印版稿 PNG（2976×1376 px，纯黑白）；或 186×86 mm 矢量 PDF。</p>
+</section>
+
+<!-- Step 6: 荧光丝印 -->
+<section class="step" id="step-6">
+  <h2><span class="num">步骤 06</span> 紫外荧光油墨丝网套印</h2>
+  <h3 class="proper">UV Fluorescent Screen Overprint</h3>
+
+  <h4>目的</h4>
+  <p>将隐藏纹样印到纪念券上：正常光线下不明显，365 nm 紫外灯下发光。</p>
+
+  <table class="io-table">
+    <tr><td>输入</td><td>已完成彩色打印 + 普通专色套印的棉纸 · 紫外荧光丝印版稿 · 丝网版 · 透明/浅色/指定发光颜色的紫外荧光丝印油墨</td></tr>
+    <tr><td>输出</td><td>正常光线下隐藏纹样很淡或近不可见；365 nm 紫外灯下蝴蝶、波浪、几何、姓名、编号、主题短句发光</td></tr>
+  </table>
+
+  <div class="callout danger">
+    <span class="label">概念区分（非常重要）</span>
+    这里使用的是 <b>能被紫外灯激发发光的荧光油墨</b>（UV fluorescent ink），<b>不是</b>必须用紫外灯才能干燥的 UV 固化油墨（UV curable / UV curing ink）。这是两种不同概念，询问商家时一定要明确。
+  </div>
+</section>
+
+<!-- Step 7: 裁切 -->
+<section class="step" id="step-7">
+  <h2><span class="num">步骤 07</span> 成品裁切</h2>
+  <h3 class="proper">Final Trim</h3>
+
+  <h4>目的</h4>
+  <p>去掉四周出血区，将纪念券裁成最终尺寸。</p>
+
+  <table class="io-table">
+    <tr><td>输入</td><td>完成彩色打印 + 专色套印 + 荧光套印且<b>已彻底干燥</b>的印刷品</td></tr>
+    <tr><td>裁切</td><td>印刷区 186×86 mm → 四周各裁掉 3 mm → 最终 180×80 mm</td></tr>
+    <tr><td>输出</td><td>180×80 mm 成品纪念券</td></tr>
+  </table>
+</section>
+
+<!-- Flow summary -->
+<section class="flow-summary" id="summary">
+  <h2 style="margin-top:0;">流程总览</h2>
+  <ol>
+    <li>AI 生成<b>没有文字和数字</b>的视觉底稿。</li>
+    <li>人工加入准确的面值、标题、姓名、编号、日期、非流通说明。</li>
+    <li>输出 2976×1376 px 彩色印刷稿，制作 186×86 mm 打印 PDF。</li>
+    <li>使用 120g 棉纸进行彩色数码印刷。</li>
+    <li>制作固定图形的专色丝印版稿。</li>
+    <li>使用紫色/金色/珠光色或其他专色油墨进行丝网套印。</li>
+    <li>制作紫外荧光防伪纹样版稿。</li>
+    <li>使用紫外荧光油墨进行丝网套印。</li>
+    <li>所有油墨干燥后，裁切成 180×80 mm。</li>
+  </ol>
+</section>
+
+<!-- Core rule -->
+<section class="core-rule">
+  <h2>千人千样的核心规则</h2>
+  <p>人物、背景、颜色、面值、姓名、编号、日期等 <strong>变化内容</strong>，全部放在彩色数码印刷稿里。</p>
+  <p>丝网印刷只负责位置和形状 <strong>固定</strong> 的特殊效果。如果某个丝印图形也需要每张不同，就需要每张重新制版，成本会明显增加 — 这种变化效果以后应考虑 <strong>数字 UV 打印</strong>，而不是传统丝网印刷。</p>
+</section>
+
+<!-- MVP path -->
+<section class="mvp-box" id="mvp">
+  <h2>试错阶段的 MVP 路径</h2>
+  <p>还在探索期，不必一上来就跑完整三层。建议分三档逐步加层，每档跑通后再加下一层：</p>
+
+  <div class="mvp-lanes">
+    <div class="mvp-lane min">
+      <span class="tag">第 1 档 · 最小验证</span>
+      <h4>数码彩印 + 荧光</h4>
+      <ul>
+        <li>跳过专色丝印</li>
+        <li>验证：彩图质量、棉纸打印效果、荧光隐蔽性 + 紫外发光</li>
+        <li>成本最低、turnaround 最快</li>
+      </ul>
+    </div>
+    <div class="mvp-lane mid">
+      <span class="tag">第 2 档 · 加专色</span>
+      <h4>数码 + 专色 + 荧光</h4>
+      <ul>
+        <li>只做 <b>1 个</b>固定装饰元素（如标题或徽章）的专色套印</li>
+        <li>验证套印精度、油墨效果、彩图视觉层次</li>
+        <li>实地确认 ±1mm 误差的肉眼可见程度</li>
+      </ul>
+    </div>
+    <div class="mvp-lane full">
+      <span class="tag">第 3 档 · 完整流程</span>
+      <h4>三层完整工艺</h4>
+      <ul>
+        <li>专色 + 荧光都跑通后再扩到多个装饰元素</li>
+        <li>开始考虑批量分组策略（A/B/混合）</li>
+        <li>进入正式量产</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="label">每档都要打样</span>
+    不要跳档。每档至少打 1–2 张全流程样，确认效果再批量。专色油墨的覆盖力、荧光油墨在彩图上的隐蔽性、紫外灯下的发光强度——这些必须看到实物才知道，文档和屏幕上都判断不了。
+  </div>
+  <div class="callout warn">
+    <span class="label">第 1 档就能验证的事</span>
+    AI 出图的细纹质量、棉纸吸墨表现、彩印颜色还原、荧光隐蔽/显影效果——这些占产品体验的 70%+，全部可以在最便宜的第 1 档里验证完。如果第 1 档不满意，第 2、3 档也不用看了。
+  </div>
+</section>
+
+<footer>
+  动漫主题纪念券制作流程文档 · 数码彩印 + 专色丝印 + 紫外荧光丝印 三层工艺
+</footer>
+
+</main>
+</div>
+</body>
+</html>
