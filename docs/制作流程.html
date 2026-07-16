@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动漫主题非流通收藏纪念券 · 制作流程</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --paper: #ffffff;
+    --ink: #1f1d2a;
+    --ink-soft: #4a4658;
+    --ink-mute: #7a7588;
+    --line: #e3dfd4;
+    --accent: #6b4ea8;
+    --accent-soft: #efe9fb;
+    --gold: #b8893b;
+    --warn-bg: #fff5e6;
+    --warn-bd: #e8a64a;
+    --tip-bg: #eaf4ee;
+    --tip-bd: #6b9e7c;
+    --danger-bg: #fdeaea;
+    --danger-bd: #c75555;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .doc-header {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin-bottom: 32px;
+  }
+  .doc-header h1 {
+    font-size: 26px;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+  .doc-header .subtitle {
+    font-size: 14px;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+  .doc-header .meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--ink-mute);
+  }
+  .doc-header .meta span b {
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  /* Spec table */
+  .spec-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .spec-card h2 {
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .spec-grid .cell {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .spec-grid .cell .k {
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .spec-grid .cell .v {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+  }
+
+  /* Section */
+  section {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  section h2 {
+    font-size: 19px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  section h2 .num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  section h3 {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+  }
+  section h3:first-of-type { margin-top: 4px; }
+  section p {
+    margin: 8px 0;
+  }
+  section ul, section ol {
+    margin: 8px 0;
+    padding-left: 22px;
+  }
+  section li {
+    margin: 4px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  th {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--line);
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  td:first-child {
+    color: var(--ink-mute);
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+
+  /* Labels */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.05em;
+  }
+  .tag-risk { background: var(--warn-bd); color: white; }
+
+  /* Checklist */
+  .checklist {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .checklist ul { list-style: none; padding-left: 4px; }
+  .checklist li {
+    position: relative;
+    padding-left: 26px;
+    margin: 5px 0;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 15px;
+  }
+
+  /* Risk comparison */
+  .risk-order-table td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 12px;
+  }
+
+  @media print {
+    body { background: white; font-size: 11px; }
+    section { box-shadow: none; border-color: #ccc; page-break-inside: avoid; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 20px; }
+    section { padding: 20px; }
+    .doc-header { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- Header -->
+<!-- ============================================================ -->
+<div class="doc-header">
+  <h1>动漫主题非流通收藏纪念券 · 制作流程</h1>
+  <div class="subtitle">AI 生成底图 + 数码彩印 + 面值丝印 + 紫外荧光印章 · 多层叠加工艺</div>
+  <div class="meta">
+    <span><b>定位：</b>千人千样 / 每张独一无二</span>
+    <span><b>成品：</b>180 × 80 mm</span>
+    <span><b>承印：</b>120g 棉纸</span>
+    <span><b>类型：</b>内部执行手册</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 成品规格 -->
+<!-- ============================================================ -->
+<section class="spec-card">
+  <h2>成品规格</h2>
+  <div class="spec-grid">
+    <div class="cell">
+      <div class="k">AI 底图尺寸</div>
+      <div class="v">2976 × 1376 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">印刷尺寸</div>
+      <div class="v">186 × 86 mm</div>
+    </div>
+    <div class="cell">
+      <div class="k">裁切成品</div>
+      <div class="v">180 × 80 mm</div>
+    </div>
+    <div class="cell">
+      <div class="k">四周出血</div>
+      <div class="v">各 3 mm ≈ 48 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">裁切保留区</div>
+      <div class="v">2880 × 1280 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">像素密度</div>
+      <div class="v">≈ 406 DPI</div>
+    </div>
+    <div class="cell">
+      <div class="k">内容安全距离</div>
+      <div class="v">距边 ≥ 128 px</div>
+    </div>
+    <div class="cell">
+      <div class="k">承印纸张</div>
+      <div class="v">120g 棉纸</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 参考来源 -->
+<!-- ============================================================ -->
+<section>
+  <h2>参考来源</h2>
+
+  <p>本方案参考了一段纪念钞手绘制作视频。视频中的完整制作流程如下：</p>
+
+  <table>
+    <tr><td>①</td><td><b>铅笔手绘</b> — 用普通铅笔在纸上画人物。头发区域用密集排线表现明暗。只画人物，不画背景。</td></tr>
+    <tr><td>②</td><td><b>上色</b>（视频剪辑跳过） — 后续画面中人物和背景已为彩色，具体上色过程未展示。</td></tr>
+    <tr><td>③</td><td><b>蓝膜板刮印面值</b> — 将硬质蓝膜板盖在印品上，铺上紫色油墨（油漆质感），用刮板从头刮到尾，面值即印到纸上。一板同时印一列三张。</td></tr>
+    <tr><td>④</td><td><b>裁切</b> — 将一列三张切开，成为单独纪念钞。</td></tr>
+    <tr><td>⑤</td><td><b>紫外灯照射</b> — 用紫外灯照射纪念钞，隐藏荧光图案显现。</td></tr>
+  </table>
+
+  <p>本方案将上述手工流程改造为 AI + 数码印刷 + 丝网印刷的混合工艺：<b>AI 替代手绘</b>，<b>数码彩印替代手工上色</b>，<b>丝网印刷保留面值刮印和荧光隐藏纹样</b>。</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- 核心设计决策 -->
+<!-- ============================================================ -->
+<section>
+  <h2>核心设计决策</h2>
+
+  <h3>变化内容 vs 固定内容</h3>
+  <table>
+    <tr>
+      <th>类型</th>
+      <th>内容</th>
+      <th>印刷方式</th>
+      <th>原因</th>
+    </tr>
+    <tr>
+      <td>变化（每张不同）</td>
+      <td>人物、背景、纹样、姓名、标题、日期、编号</td>
+      <td>数码彩印</td>
+      <td>每张图不同，数码打印天然支持</td>
+    </tr>
+    <tr>
+      <td>变化（按面值分组）</td>
+      <td>面值数字</td>
+      <td>丝网印刷</td>
+      <td>同一面值集中一批用同一块版印；墨层有厚度，模仿钞票面值触感</td>
+    </tr>
+    <tr>
+      <td>固定（所有相同）</td>
+      <td>紫外荧光隐藏纹样</td>
+      <td>印章盖印</td>
+      <td>通用安全底纹，与每张不同的人物内容不冲突</td>
+    </tr>
+  </table>
+
+  <h3>关于面值</h3>
+  <p>面值通过丝网印刷而非数码打印，核心目的是获得有厚度的墨层，模仿钞票面值的触感。实施方式：<b>按面值分组批次印刷</b>——同一面值的纪念券集中在一起，用同一块丝网版一次印完，然后换下一块版印下一个面值。面值种类有限（如 5–10 种），只需制作有限几块版。</p>
+  <p><b>面值油墨探索：</b>已尝试购买变色龙珠光粉（干涉型），希望在面值上实现角度变色效果。但珠光粉到手后发现干涉变色效果与预期的钞票级光变油墨（OVI）存在差距。此方向暂记待后续验证——若后续找到合适的光变油墨供应商，或自制调墨效果满意，直接替换步骤 3 的普通丝印油墨即可，不改变流程结构。</p>
+
+  <h3>关于姓名 / 编号 / 日期</h3>
+  <p>这些内容由 AI 在生成底图时直接画入画面（步骤 1），与人物、背景一起在数码彩印阶段完成。不单独设印刷步骤。</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- 流程总览 -->
+<!-- ============================================================ -->
+<section>
+  <h2>流程总览</h2>
+
+  <p style="text-align:center;font-size:14px;color:var(--ink-mute);margin-bottom:16px;">
+    步骤 1 → 步骤 2 → 步骤 3 → 步骤 4 → 步骤 5
+  </p>
+
+  <table>
+    <tr>
+      <th>步骤</th>
+      <th>目标</th>
+      <th>输入</th>
+      <th>输出</th>
+    </tr>
+    <tr>
+      <td>1. AI 生成底稿</td>
+      <td>生成完整彩色画面（人物、背景、细纹、边框、姓名、标题、日期、编号），不含面值数字</td>
+      <td>人物设定、主题方向</td>
+      <td>2976 × 1376 px 彩色 PNG</td>
+    </tr>
+    <tr>
+      <td>2. 数码彩印</td>
+      <td>将底稿原尺寸打印到棉纸上</td>
+      <td>步骤 1 的 PNG</td>
+      <td>186 × 86 mm 彩色棉纸</td>
+    </tr>
+    <tr>
+      <td>3. 面值丝印</td>
+      <td>用丝网版 + 油墨刮印面值，墨层有厚度，模仿钞票面值触感</td>
+      <td>步骤 2 半成品 + 面值丝网版</td>
+      <td>叠加了面值的半成品</td>
+    </tr>
+    <tr>
+      <td>4. 紫外荧光印章</td>
+      <td>用定制印章蘸透明 UV 荧光油墨盖印隐藏纹样。正常光下不可见，365 nm 紫外灯下发光</td>
+      <td>步骤 3 半成品 + 定制印章 + UV 荧光印台</td>
+      <td>具备荧光隐藏纹样的半成品</td>
+    </tr>
+    <tr>
+      <td>5. 裁切</td>
+      <td>去掉四周各 3 mm 出血，裁为成品尺寸</td>
+      <td>步骤 4 半成品（已彻底干燥）</td>
+      <td>180 × 80 mm 成品</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 步骤 1 -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="num">步骤 1</span> AI 生成视觉底稿</h2>
+
+  <h3>目标</h3>
+  <p>生成一张完整的彩色画面底稿，作为后续所有印刷步骤（步骤 2–4）的基底。画面需具备钞票级别的精密纹理和雕刻版画质感，让人第一眼看过去觉得「这是一张纪念钞」，而不是「这是一张画」。</p>
+  <p>所有每张不同的内容（人物、背景、姓名、标题、日期、编号）均在此步骤一次性完成，不再设人工后期编辑环节。</p>
+
+  <h3>前置条件</h3>
+  <table>
+    <tr><td>主题</td><td>确定纪念券的视觉主题（如特定角色、系列、风格方向）</td></tr>
+    <tr><td>文字数据</td><td>每张纪念券对应的姓名、标题、日期、编号清单</td></tr>
+    <tr><td>面值方案</td><td>面值种类和每种面值的张数（用于步骤 3 制版规划，步骤 1 只需知道「留白不画数字」）</td></tr>
+  </table>
+
+  <h3>产出</h3>
+  <table>
+    <tr><td>正面底稿</td><td>2976 × 1376 px 彩色 PNG</td></tr>
+    <tr><td>背面底稿（可选）</td><td>同尺寸背面 PNG</td></tr>
+  </table>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:24px 0;">
+
+  <p style="color:var(--ink-mute);font-size:13px;">以下为步骤 1 的详细规格，描述画面中应画什么、怎么画、不能画什么。用于指导 AI 提示词的编写。</p>
+
+  <h3>整体风格：钞券感</h3>
+  <p>这张画的终极追求是<b>「像一张钞票」</b>——不是像一幅插画、一张海报或一张明信片。以下几句话定义了什么是「钞券感」：</p>
+  <ul>
+    <li><b>满版密集纹理。</b>钞票的第一视觉特征是「没有空白」。整个画面被细密的线条和纹样铺满——背景不是色块，而是由无数曲线、网纹、放射线交织而成的精密纹理。任何一个区域的放大都有内容可看。</li>
+    <li><b>雕刻版画质感，不是平涂。</b>人物的明暗不是靠软阴影画出来的，而是靠疏密排线「刻」出来的。头发是一根一根的线，衣褶是一排一排的线，明暗过渡靠的是线条的疏密变化。整个画面的质感接近铜版画或雕刻版画。</li>
+    <li><b>多层信息叠加。</b>钞票上背景底纹、装饰边框、人物肖像、面值、编号、文字各自在不同视觉层级上。底纹在最底层铺满，装饰框和人物在中间层，文字在最上层清晰可辨。层次分明但不割裂。</li>
+    <li><b>庄重、正式、有价值感。</b>构图讲究对称或均衡，装饰纹样有秩序感，线条细致精密不潦草。整体气质偏向「官方发行的有价证券」，而非轻松的插画作品。</li>
+  </ul>
+  <p>总之一句话：<b>让人第一眼看过去觉得「这是一张纪念钞」，而不是「这是一张画」。</b></p>
+
+  <h3>输入</h3>
+  <table>
+    <tr><td>人物参考</td><td>目标角色设定/参考图</td></tr>
+    <tr><td>主题方向</td><td>配色方案、风格倾向</td></tr>
+    <tr><td>文字数据</td><td>每张纪念券对应的姓名、标题、日期、编号</td></tr>
+  </table>
+
+  <h3>画面内容</h3>
+
+  <table>
+    <tr><th>内容</th><th>负责方</th><th>说明</th></tr>
+    <tr><td>人物</td><td>AI</td><td>动漫风格，全彩，精致造型</td></tr>
+    <tr><td>服装配饰</td><td>AI</td><td>与角色一致的服装、羽织、饰品</td></tr>
+    <tr><td>背景底色</td><td>AI</td><td>铺满整个画布，不得出现画布外的白边、桌面、墙面或投影</td></tr>
+    <tr><td>钞券风格细纹</td><td>AI</td><td>头发排线、背景底纹、边框装饰线，详见下方细纹规格</td></tr>
+    <tr><td>装饰边框</td><td>AI</td><td>纪念券整体边框结构</td></tr>
+    <tr><td>标题</td><td>AI</td><td>纪念券主题标题，置于装饰牌区域</td></tr>
+    <tr><td>姓名</td><td>AI</td><td>角色名，画面中清晰可读</td></tr>
+    <tr><td>日期</td><td>AI</td><td>发行/纪念日期</td></tr>
+    <tr><td>编号</td><td>AI</td><td>纪念券编号，置于细长低细节区域</td></tr>
+    <tr><td>非流通说明</td><td>AI</td><td>「非流通纪念券」「无货币价值」「NON-NEGOTIABLE」等字样</td></tr>
+    <tr><td>面值数字</td><td style="color:var(--danger-bd);">不生成</td><td>仅留出空白区域，数字由步骤 3 丝印完成</td></tr>
+  </table>
+
+  <h3>面值预留区</h3>
+  <p>面值数字不由 AI 生成，而是通过步骤 3 丝网印刷单独印上去。因此底图中需要留出一处自然的位置，供后续丝印面值使用。</p>
+  <ul>
+    <li><b>不画显式框线。</b>不画方框、圆框或任何边界线来标注面值位置——这些框线会限制后续丝印的对位自由度。</li>
+    <li>预留区保持干净、低细节：不排细纹、不放人物五官或复杂装饰元素。</li>
+    <li>所有底图的面值预留区应位于大致相同的画面区域，保证同一块丝网版可批量套印。</li>
+  </ul>
+
+  <h3>细纹规格</h3>
+  <p>底图中的细纹是纪念券「钞票质感」的核心来源。AI 需在以下区域按各自规则生成精细排线和装饰纹样：</p>
+
+  <table>
+    <tr><th>区域</th><th>细纹类型</th><th>规则</th></tr>
+    <tr>
+      <td>头发</td>
+      <td>顺发丝方向的雕刻排线</td>
+      <td>用线条疏密表现明暗，类似版画/钞票人像线稿。深色暗部不重复堆线。</td>
+    </tr>
+    <tr>
+      <td>衣服、羽织、褶皱</td>
+      <td>顺布料结构的排线 + 少量交叉排线</td>
+      <td>沿布纹走向，交叉排线用于加深褶皱阴影。</td>
+    </tr>
+    <tr>
+      <td>颈部、下巴、鼻侧阴影</td>
+      <td>稀疏细排线</td>
+      <td>少量，仅用于阴影过渡。</td>
+    </tr>
+    <tr>
+      <td>脸部主体</td>
+      <td style="color:var(--danger-bd);">不排线</td>
+      <td>眼睛、嘴巴、鼻子、皮肤亮部保持干净。</td>
+    </tr>
+    <tr>
+      <td>人物背后浅色区</td>
+      <td>放射纹、同心曲线、扭索纹</td>
+      <td>以人物为中心向外扩散，形成钞票经典的放射底纹。</td>
+    </tr>
+    <tr>
+      <td>大面积浅色背景</td>
+      <td>波浪曲线、几何网纹、连续曲线、浅色花卉线纹</td>
+      <td>均匀铺开，线条方向有变化，不单调。</td>
+    </tr>
+    <tr>
+      <td>边框及装饰区</td>
+      <td>对称花卉线纹、蝶翼线纹、重复装饰细线</td>
+      <td>沿边框走向，图案对称、规整。</td>
+    </tr>
+  </table>
+
+  <h3>细纹硬性约束</h3>
+  <ul>
+    <li>线宽 ≥ 4–5 px（≈ 0.3 mm），线间距 ≥ 4–5 px</li>
+    <li>线条必须连续、清晰，不得出现断裂、模糊、粘连</li>
+    <li>以下区域<b>禁止排线</b>：黑色头发最暗处、深色背景、人物五官、文字区域、编号区域、面值预留区</li>
+  </ul>
+
+  <h3>边缘安全距离</h3>
+  <ul>
+    <li>画面边缘 48 px（≈ 3 mm）为出血区：只放连续背景和可裁切装饰，不放置关键内容。</li>
+    <li>人物脸部、标题、面值预留区、编号等核心内容距四边 ≥ 128 px。</li>
+    <li>各文字区域（姓名、日期、编号、非流通说明）不得被边框、装饰、人物身体穿过或遮挡。</li>
+  </ul>
+
+  <h3>荧光纹样预留区</h3>
+  <p>底图中需为步骤 4 的紫外荧光印章留出合适的盖印区域。这些区域在底图上保持浅色、连续、低细节——不要把荧光纹样画进彩图，只留位置：</p>
+  <ul>
+    <li><b>适合：</b>人物背后浅色背景、左右大面积浅色区、面值预留区周围、较大连续空白区。</li>
+    <li><b>不适合：</b>人物脸部、黑色头发、深色背景区。</li>
+    <li>预留区不与人物五官或发丝精确贴合，周围留 ≥ 1 mm 余量。</li>
+  </ul>
+
+  <h3>输出</h3>
+  <table>
+    <tr><td>正面</td><td>2976 × 1376 px 彩色 PNG</td></tr>
+    <tr><td>背面（可选）</td><td>同尺寸背面底稿 PNG</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 步骤 2 -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="num">步骤 2</span> 数码彩印</h2>
+
+  <h3>目标</h3>
+  <p>将步骤 1 的底稿原尺寸双面打印到棉纸上，作为后续丝印步骤的承印物。</p>
+
+  <h3>前置条件</h3>
+  <table>
+    <tr><td>步骤 1 完成</td><td>正面底稿 PNG + 背面底稿 PNG（均 2976×1376 px）</td></tr>
+    <tr><td>纸张</td><td>120g 棉纸（待打样验证克重是否合适）</td></tr>
+    <tr><td>打印文件</td><td>将 PNG 按 186×86 mm、406 DPI 原尺寸制版，正背面合为一个 PDF（第 1 页正面 / 第 2 页背面）</td></tr>
+  </table>
+
+  <h3>关键要求</h3>
+  <ul>
+    <li><b>原尺寸打印</b>——不拉伸、不缩放、不自动适应页面。</li>
+    <li><b>双面对位</b>——正面和背面印在同一张纸的同一区域上，保证裁切后正反面对齐。</li>
+    <li>打印后不裁切，保持印刷尺寸（186×86 mm），裁切在步骤 5 统一进行。</li>
+    <li>不覆膜、不上光油——纸张表面需保持可吸收状态，供后续丝印油墨附着。</li>
+  </ul>
+  <p style="font-size:13px;color:var(--ink-mute);">🔗 <b>联动：</b>排版方式（几张纪念券排在一张纸上）影响纸张大小、步骤 3 网版尺寸、步骤 5 裁切方式。排版方案确定后需同步检查这三个步骤的参数。</p>
+
+  <h3>产出</h3>
+  <table>
+    <tr><td>正面已印</td><td>人物 · 背景 · 全部细纹 · 边框 · 标题 · 姓名 · 日期 · 编号 · 非流通说明</td></tr>
+    <tr><td>尚未印刷</td><td>面值数字（步骤 3） · 紫外荧光纹样（步骤 4）</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 步骤 3 -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="num">步骤 3</span> 面值丝印</h2>
+
+  <h3>目标</h3>
+  <p>用丝网印刷将面值数字刮印到已完成数码彩印的棉纸上。墨层有厚度，摸得到，模仿真钞面值的触感。</p>
+
+  <h3>原理</h3>
+  <p>丝网印刷本质是<b>漏版</b>：一块绷紧的网布上，需要印数字的位置网孔是通的（漏墨），其余位置全部封死。将网版盖在纸上，倒上油墨，用刮板从头刮到尾——油墨被挤压穿过网孔落到纸上，形成数字。</p>
+
+  <h3>前置条件</h3>
+  <table>
+    <tr><td>步骤 2 完成</td><td>已双面数码彩印的棉纸（每张纪念券印刷区域 186×86 mm，排版方式待定）</td></tr>
+    <tr><td>面值清单</td><td>确定有几种面值、具体数字（如 1000、5000、10000 等），每种面值做一块版</td></tr>
+    <tr><td>丝网版</td><td>每种面值一块，版上仅含数字，不含框线或装饰。网框尺寸和拼版数量由印刷排版方式决定<br>🔗 联动：步骤 2 排版方式 → 网版尺寸</td></tr>
+    <tr><td>刮板</td><td>橡胶刮板，宽度略大于网版上图案的宽度</td></tr>
+    <tr><td>油墨</td><td>丝印油墨。当前已购买变色龙珠光粉用于调墨实验。<br>⏳ 待调研：透明丝印油墨基购买渠道、变色龙粉与油墨基的调配比例和方法</td></tr>
+    <tr><td>紫外灯（365 nm）</td><td>如果用了光变/干涉油墨，需要紫外灯验证变色效果</td></tr>
+  </table>
+
+  <h3>操作要点</h3>
+  <ul>
+    <li><b>按面值分批：</b>同一面值的纪念券集中一批，用同一块网版一次印完。印完换下一块版、换墨，印下一个面值。</li>
+    <li><b>拼版：</b>如果数码打印时多张纪念券印在同一张大纸上尚未裁切，网版可对应做大，一刮印多张。排版方式和网版尺寸在印刷前统一确定。</li>
+    <li><b>对位：</b>数字印在步骤 1 预留的空白区域。底图不画框线，网版只含数字——允许 ±1 mm 偏移，视觉上可接受。</li>
+    <li><b>先试刮：</b>正式批量前先试 1–2 张，验证油墨附着力（能否挂在数码彩印表面）、干燥时间、墨层厚度和变色效果（如有）。</li>
+  </ul>
+
+  <h3>待确定</h3>
+  <ul>
+    <li>面值种类和具体数字</li>
+    <li>油墨最终方案（变色龙粉调墨效果验证、是否需要额外购买成品光变油墨）</li>
+    <li>油墨颜色</li>
+    <li>印刷排版方式（单张印 / 拼版印）→ 决定网版尺寸</li>
+    <li>全网版目数（由油墨稠度决定，稠墨 ≈ 80–120 目，店家可协助选型）</li>
+  </ul>
+
+  <h3>产出</h3>
+  <table>
+    <tr><td>新增</td><td>面值数字（有墨层厚度和触感）</td></tr>
+    <tr><td>尚未印刷</td><td>紫外荧光纹样（步骤 4）</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 步骤 4 -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="num">步骤 4</span> 紫外荧光印章</h2>
+
+  <h3>目标</h3>
+  <p>用定制印章蘸取透明 UV 荧光油墨，盖印到步骤 3 完成的半成品上。正常光线下图案不可见或极淡，365 nm 紫外灯照射下清晰发光。</p>
+
+  <h3>前置条件</h3>
+  <table>
+    <tr><td>步骤 3 完成</td><td>已印好面值的半成品，油墨彻底干燥</td></tr>
+    <tr><td>定制印章</td><td>按荧光图案定制的橡胶/硅胶/光敏印章，图案可自定义</td></tr>
+    <tr><td>UV 荧光印台</td><td>含透明 UV 荧光油墨的印台。正常光下无色，365 nm 紫外灯下发蓝白/黄绿/红色光。<br>⏳ 待调研：印台购买渠道、发光颜色选择</td></tr>
+    <tr><td>紫外灯</td><td>365 nm 手持紫外灯，用于盖印后验证效果</td></tr>
+  </table>
+
+  <h3>操作要点</h3>
+  <ul>
+    <li><b>印章方向：</b>盖印时注意正反面方向，正面和背面荧光图案可能不同。</li>
+    <li><b>盖印位置：</b>对准步骤 1 预留的荧光纹样区域（浅色、连续、低细节背景区）。不盖在人物脸部、头发暗部或深色区域。</li>
+    <li><b>先试盖：</b>在废纸或边角料上试盖 2–3 次，确认印章吃墨均匀、图案完整，再往正式品上盖。</li>
+    <li><b>干燥：</b>荧光油墨干透前不叠放、不触摸盖印区域。</li>
+  </ul>
+
+  <h3>待确定</h3>
+  <ul>
+    <li>荧光图案设计</li>
+    <li>UV 荧光印台购买</li>
+    <li>印章定制店铺</li>
+  </ul>
+
+  <h3>产出</h3>
+  <table>
+    <tr><td>新增</td><td>正常光不可见、365 nm 紫外灯下发光<br>后续套印需干燥一段时间</td></tr>
+    <tr><td>尚未完成</td><td>裁切（步骤 5）</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 步骤 5 -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="num">步骤 5</span> 裁切</h2>
+
+  <h3>目标</h3>
+  <p>去掉每张纪念券四周的出血区（各 3 mm），裁出最终成品尺寸 180×80 mm。</p>
+
+  <h3>前置条件</h3>
+  <table>
+    <tr><td>步骤 3、4 完成</td><td>面值和荧光印章均已彻底干燥</td></tr>
+    <tr><td>裁切工具</td><td>裁纸刀/切纸机（手动或电动），刀口需锋利以保证切边整齐<br>🔗 联动：步骤 2 排版方式决定裁切时是一张张裁还是整版切分</td></tr>
+  </table>
+
+  <h3>裁切规格</h3>
+  <table>
+    <tr><td>裁前尺寸</td><td>186×86 mm（含四周各 3 mm 出血）</td></tr>
+    <tr><td>裁后尺寸</td><td>180×80 mm</td></tr>
+    <tr><td>裁切量</td><td>四边各裁掉 3 mm</td></tr>
+  </table>
+
+  <h3>操作要点</h3>
+  <ul>
+    <li><b>彻底干燥后再裁：</b>步骤 3 丝印油墨和步骤 4 荧光油墨必须完全干透。未干透就裁容易蹭花、刀口粘墨。</li>
+    <li><b>按裁切线对齐：</b>如果底图提供了裁切标记，严格按标记下刀。如未标记，以印刷区边缘为准，四边各缩进 3 mm。</li>
+    <li><b>先试裁：</b>拿边角料或最不重要的一张先试一刀，确认尺寸无误（180×80 mm）再批量裁。</li>
+  </ul>
+
+  <h3>产出</h3>
+  <table>
+    <tr><td>成品</td><td>180×80 mm 纪念券，正反面完整，面值有触感，紫外灯下有荧光隐藏图案</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 已知风险 -->
+
+  <!-- Risk 1 -->
+  <h3><span class="tag tag-risk">风险 1</span> 套准精度</h3>
+  <p>步骤 3（面值丝印）为手工刮板，步骤 4（荧光印章）为手动盖印，各有 ±1 mm 左右的定位偏差。两层叠加后，面值和荧光纹样的实际位置可能与底图设计位置有偏移。</p>
+  <p><b>对策：</b></p>
+  <ul>
+    <li>步骤 1 设计底图时，面值预留区和荧光纹样预留区周围留 ≥ 1.5 mm 容错空间</li>
+    <li>不依赖丝印层与底图某条线的精确对齐</li>
+    <li>第一批打样后直接观察实物偏移量，决定是否进一步放宽</li>
+  </ul>
+
+  <!-- Risk 2 -->
+  <h3><span class="tag tag-risk">风险 2</span> 油墨兼容性</h3>
+  <p>步骤 2 数码彩印的墨粉/喷墨墨水表面，不一定能挂住步骤 3/4 的丝印油墨。可能出现附着力不足、干燥后剥落，或丝印油墨溶剂溶解底层数码墨。</p>
+  <p><b>对策：</b></p>
+  <ul>
+    <li>取一张数码彩印完成的棉纸，交给丝印店现场试刮，直接观察附着力和底层是否受损</li>
+    <li>棉纸本身吸墨性较强，这是有利因素，但不能替代实测</li>
+    <li>如果附着力不足，与丝印店确认是否可在丝印前加一层薄透明底漆</li>
+  </ul>
+
+  <!-- Risk 3 -->
+  <h3><span class="tag tag-risk">风险 3</span> 面值与荧光的先后顺序</h3>
+  <p>步骤 3（面值丝印，不透明厚墨层）和步骤 4（荧光印章，透明油墨）的先后顺序有两种方案：</p>
+  <table class="risk-order-table">
+    <tr>
+      <td>先面值 → 后荧光</td>
+      <td>面值墨层触感纯粹，不被荧光层覆盖</td>
+      <td>荧光油墨盖在面值上，紫外灯下面值上方可能被荧光层轻微遮挡</td>
+    </tr>
+    <tr>
+      <td>先荧光 → 后面值</td>
+      <td>荧光纹样不会被面值油墨遮盖</td>
+      <td>面值油墨不透明时，紫外灯下形成黑色遮挡块，破坏荧光纹样连续性</td>
+    </tr>
+  </table>
+  <p><b>对策：</b>第一版测试时两种顺序各打一张样，紫外灯下对比效果后决定。</p>
+
+  <!-- Risk 4 -->
+  <h3><span class="tag tag-risk">风险 4</span> 干燥时间</h3>
+  <p>丝印油墨和荧光印章油墨干燥均需一定时间。上一步未干透就进入下一步，会蹭花或污染上一层。</p>
+  <p><b>对策：</b></p>
+  <ul>
+    <li>与丝印店确认油墨的干燥方式和时间（自然干燥 vs 烘箱加速）</li>
+    <li>安排工序时预留干燥间隔</li>
+    <li>不因赶时间而跳过干燥</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<!-- 待调研 / 待定 -->
+<!-- ============================================================ -->
+<section>
+  <h2>待调研 / 待定</h2>
+  <div class="checklist">
+    <ul>
+      <li>步骤 1 后续：AI 工具选型、提示词编写</li>
+      <li>步骤 2 后续：120g 棉纸打样验证</li>
+      <li>步骤 3 后续：透明丝印油墨基购买、变色龙粉调配比例、油墨颜色、网版目数</li>
+      <li>步骤 4 后续：荧光图案设计、UV 荧光印台购买、印章定制店铺</li>
+      <li>全局：排版方式（联动纸张大小、网版尺寸、裁切方式）</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  动漫主题非流通收藏纪念券制作流程 · 内部执行手册
+</footer>
+
+</div>
+</body>
+</html>
