@@ -5,8 +5,11 @@ from datetime import datetime
 
 import requests
 import streamlit as st
+from dotenv import load_dotenv
 from openai import OpenAI
 from PIL import Image
+
+load_dotenv()
 
 
 st.set_page_config(
@@ -200,6 +203,7 @@ with st.sidebar:
         size = st.selectbox(
             "图片尺寸",
             [
+                "2976x1376",
                 "1024x1024",
                 "1024x1536",
                 "1536x1024",
@@ -215,7 +219,7 @@ with st.sidebar:
     else:
         size = st.text_input(
             "自定义尺寸 (宽x高)",
-            value="1024x1024",
+            value="2976x1376",
             help="格式：宽x高，例如 1280x720。gpt-image-2 支持 1K–4K 范围内的自定义像素尺寸",
         )
 
